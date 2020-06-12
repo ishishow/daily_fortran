@@ -10,9 +10,13 @@ C234567
 
       CsalGoukei=0
       BsalGoukei=0
+      Cb=0
+      Cd=0
       do k=1,num
        CsalGoukei=CsalGoukei+csal(k)
        BsalGoukei=BsalGoukei+bsal(k)
+       Cb=Cb+csal(k)**2
+       Cd=Cd+csal(k)*bsal(k)
       enddo
 
       count=0
@@ -23,17 +27,14 @@ C234567
       CsalZansa=0
       BsalZansa=0
       CyouBunsan=0
-
       do k=1,num
        Csalup=csal(k)-CsalHeikin
        Bsalup=bsal(k)-BsalHeikin
-       write(*,*)"Bsalup=",Bsalup
        Aa=Csalup*Bsalup
-       write(*,*)"Aa=",Aa
        CyouBunsan=CyouBunsan+Aa
-       write(*,*)"CyouBunsan=",CyouBunsan
        CsalZansa=CsalZansa+(csal(k)-CsalHeikin)**2
        BsalZansa=BsalZansa+(bsal(k)-BsalHeikin)**2
+
       enddo
 
       CsalBunsan=CsalZansa/num
@@ -43,11 +44,24 @@ C234567
       BsalHensa=sqrt(BsalBunsan)
       Soukan=CyouBunsan/CsalHensa
       Soukan=Soukan/BsalHensa
+      Aaa=(Cd*num-BsalGoukei*CsalGoukei)/(num*Cb-CsalGoukei**2)
+      Bbb=(Cb*BsalGoukei-Cd*CsalGoukei)/(num*Cb-CsalGoukei**2)
       write(*,*)"CsalHensa=",CsalHensa
       write(*,*)"BsalHensa=",BsalHensa
       write(*,*)"CyouBunsan=",CyouBunsan
       write(*,*)"Soukan=",Soukan
-
+      write(*,*)"katamuki=",Aaa
+      write(*,*)"Seppen=",Bbb
+      Assr=0
+      do k=1,num
+        Ayosalt=Aaa*bsal(k)+Bbb+1.08
+        Assr=Assr+(csal(k)-Ayosalt)**2
+      enddo
+      Atss=CsalBunsan*num
+      write(*,*)"SSR=",Assr
+      write(*,*)"TSS=",Atss
+      Ansss=sqrt(1-(Assr/Atss))
+      write(*,*)"Ketteikeisu=",Ansss
       stop
       end
 C----------
